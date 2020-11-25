@@ -15,9 +15,9 @@
           </div>
           
           <div class="cards">
-            <div class="front card">
-              <img class="bank-logo">
-              <img class="brand-logo">
+            <div class="front card" v-bind:style="{background: bankInfo.color}">
+              <img v-if="bankInfo.logo" class="bank-logo" :src="bankInfo.logo" >
+              <img class="brand-logo" :src="brand">
               <div class="fields">
                 <input v-model="enteredBin" class="field number" type="number" maxlength="6" placeholder="0000 0000 0000 0000">
                 <label class="label">Дійсна до</label>
@@ -39,12 +39,18 @@
             <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
             <table>
               <tr>
-                <td>Банк:</td>
-                <td>{{info.bank}}</td>
-              </tr>
-              <tr>
                 <td>Країна:</td>
                 <td>{{info.country}}</td>
+              </tr>
+              <tr>
+                <td>Банк:</td>
+                <td >{{info.bank}}</td>
+              </tr>
+              <tr>
+                <td>Сайт банку:</td>
+                <td>
+                  <a :href="bankInfo.url">{{bankInfo.url}}</a>
+                </td>
               </tr>
               <tr>
                 <td>Платіжна система:</td>
@@ -81,21 +87,26 @@
 
 <script>
 import Vue from 'vue'
+import banks from '../data/banks.js'
 
 export default {
   name: 'MainPage',
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       binCheker: 'https://x-api.hackinglatino.com/public/bin/',
       proxy: 'https://cors-anywhere.herokuapp.com/',
       enteredBin: '',
       message: 'Введіть перші 6 цифр BIN:',
       status: 1,
-      info: {}
+      brand: '',
+      info: {},
+      banks: [],
+      bankInfo: {}
     }
   },
   mounted: function () {
-
+    this.banks=banks;
   },
   computed:{
     url: function () {
@@ -117,6 +128,8 @@ export default {
       else if(val.length==0){
         this.message='Введіть перші 6 цифр BIN:';
         this.status=1;
+        this.info={};
+        this.bankInfo={};
       }
       else if (val.length>6){
         this.enteredBin=val.substr(0,6);
@@ -125,20 +138,46 @@ export default {
         this.message='Чекаю доки ви введете 6 перших цифр BIN';
         this.status=2;
         this.info={};
+        this.bankInfo={};
       }
+      if (val[0]==3) {
+        this.brand=`${this.publicPath}brands/american-express-colored.svg`
+      }
+      else if (val[0]==4) {
+        this.brand=`${this.publicPath}brands/visa-colored.svg`
+      }
+      else if (val[0]==5) {
+        this.brand=`${this.publicPath}brands/master-card-colored.svg`
+      }
+      else {
+        this.brand=""
+      }
+
     }
   },
   methods: {
     checkBIN(){
-      console.log(this.url);
-      
       Vue.axios.get(this.url).then( response => {
         this.message='Успіх';
         this.status=4;
         console.log(response.data);
         this.info=response.data.response;
+        this.getBankInfo();
       }).catch(error => {
         console.error(error);
+        this.message="Помилка!";
+        this.status=1;
+      });
+    },
+    getBankInfo(){
+      this.banks.forEach(country => {
+        if (country.country.toUpperCase()==this.info.country.toUpperCase()) {
+          country.banks.forEach(bank => {
+            if (bank.bankNames.find(name=>name.toUpperCase()==this.info.bank.toUpperCase())) {
+              this.bankInfo=bank.bankData;
+            }
+          });
+        }
       });
     }
   }
@@ -297,10 +336,10 @@ input::-webkit-inner-spin-button {
   left: 0;
   padding: 1.3em;
   width: 100%;
-  height: 5em;
+  height: 4.5em;
   object-fit: contain;
   object-position: 0 0;
-  display: none;
+  /* display: none; */
 }
 .cards .card.front .brand-logo {
   position: absolute;
@@ -308,7 +347,7 @@ input::-webkit-inner-spin-button {
   right: 1.3em;
   text-align: right;
   height: 1.8em;
-  display: none;
+  /* display: none; */
 }
 .cards .card.front .fields {
   position: absolute;

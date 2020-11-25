@@ -3,14 +3,14 @@
     <b-container fluid class="header">
       <div>
         <b-navbar toggleable="lg" type="light" variant="light">
-          <b-navbar-brand href="#">BINally</b-navbar-brand>
+          <b-navbar-brand to="/">BINally</b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item href="#" disabled>Головна</b-nav-item>
-              <b-nav-item href="#">Збережені картки</b-nav-item>
+              <b-nav-item to="/" @click="changePage('main')" :disabled="activePage=='main'">Головна</b-nav-item>
+              <b-nav-item to="/history" @click="changePage('history')" :disabled="activePage=='history'">Історія</b-nav-item>
             </b-navbar-nav>
 
             
@@ -28,6 +28,31 @@
     </b-container>
   </div>
 </template>
+
+<script>
+import Vue from 'vue'
+
+export default {
+  data(){
+    return{
+      activePage: ''
+    }
+  },
+  mounted: function () {
+    if (this.$route.path=="/history") {
+      this.activePage="history";
+    }
+    else if (this.$route.path=="/"){
+      this.activePage="main";
+    }
+  },
+  methods:{
+    changePage(page){
+      this.activePage=page;
+    }
+  }
+}
+</script>
 
 <style scoped>
   .header{
