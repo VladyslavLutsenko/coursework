@@ -74,5 +74,10 @@ export default {
     background-color: rgb(235, 235, 235);
   }
 }
+@media (max-width: 992px) {
+  .content{
+    min-height: 90vh;
+  }
+}
 </style>
 

@@ -141,7 +141,7 @@ export default {
         overflow: auto;
     }
     .col-right{
-        min-height: 35vh;
+        min-height: 90vh;
     }
     #message-nazhmite{
         margin-top: 40vh;
