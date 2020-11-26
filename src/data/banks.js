@@ -43,7 +43,8 @@ export default [
                     "ukrsibbank",
                     "PJSC UKRSIBBANK",
                     "JS INNOVATION BANK UKRSIBBANK",
-                    "PUBLIC JOINT-STOCK COMPANY UKRSIBBANK"
+                    "PUBLIC JOINT-STOCK COMPANY UKRSIBBANK",
+                    "PUBLIC JSC UKRSIBBANK"
                 ],
                 "bankData": {
                     "url": "https://ukrsibbank.com/",

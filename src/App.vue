@@ -3,7 +3,7 @@
     <b-container fluid class="header">
       <div>
         <b-navbar toggleable="lg" type="light" variant="light">
-          <b-navbar-brand to="/">BINally</b-navbar-brand>
+          <b-navbar-brand to="/" @click="changePage('main')">BINally</b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

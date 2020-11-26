@@ -38,29 +38,29 @@
             </div>
             <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
             <table>
-              <tr>
+              <tr v-if="info.country">
                 <td>Країна:</td>
                 <td>{{info.country}}</td>
               </tr>
-              <tr>
+              <tr v-if="info.bank">
                 <td>Банк:</td>
                 <td >{{info.bank}}</td>
               </tr>
-              <tr>
+              <tr v-if="bankInfo.url">
                 <td>Сайт банку:</td>
                 <td>
                   <a :href="bankInfo.url">{{bankInfo.url}}</a>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="info.scheme">
                 <td>Платіжна система:</td>
                 <td>{{info.scheme}}</td>
               </tr>
-              <tr>
+              <tr v-if="info.type">
                 <td>Тип картки:</td>
                 <td>{{info.type}}</td>
               </tr>
-              <tr>
+              <tr v-if="info.level">
                 <td>Рівень картки:</td>
                 <td>{{info.level}}</td>
               </tr>
@@ -163,6 +163,8 @@ export default {
         console.log(response.data);
         this.info=response.data.response;
         this.getBankInfo();
+        
+        this.addToHistory(this.info, this.bankInfo);
       }).catch(error => {
         console.error(error);
         this.message="Помилка!";
@@ -179,6 +181,9 @@ export default {
           });
         }
       });
+    },
+    addToHistory(info, bankInfo){
+      this.$store.commit('addBin', {...info, ...bankInfo});
     }
   }
 }
@@ -258,6 +263,20 @@ export default {
   z-index: 0; */
 }
 
+.col-right{
+  background-color: rgb(235, 235, 235);
+}
+
+.col-left{
+  text-align: center;
+  background-color: white;
+}
+
+.message-holder{
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+}
+
 table{
   width: 100%;
   margin-bottom: 1vw;
@@ -275,29 +294,16 @@ table, tr, td{
 
 td{
   font-weight: 500;
-  
+  width: 30%;
 }
 
 td +td{
   font-weight: 400;
+  width: 70%;
 }
 
 tr+tr{
   border-top: 1px black solid;
-}
-
-.col-right{
-  background-color: rgb(235, 235, 235);
-}
-
-.col-left{
-  text-align: center;
-  background-color: white;
-}
-
-.message-holder{
-  padding-top: 2vw;
-  padding-bottom: 2vw;
 }
 
 input[type='number'] {
@@ -399,5 +405,13 @@ input::-webkit-inner-spin-button {
   font-size: 0.8em;
   display: block;
   margin-top: 0.5em;
+}
+</style>
+
+<style scoped>
+@media (max-width: 992px) {
+  .col-right{
+    min-height: 50vh;
+  }
 }
 </style>
