@@ -24,41 +24,45 @@
           
         </b-col>
         <b-col class="col-right" order="1" order-lg="2" :lg="!status ? 12 : 8">
-            <div v-if="!status" class="message-history">Історія запитів порожня!</div>
-            <div v-if="!info.bin && status">
+            
+            <div v-if="!status" class="message-history" >Історія запитів порожня!</div>
+            <div v-if="!info.bin && status" >
                 <div id="message-nazhmite">Натисніть на картку щоб побачити детальну інформацію</div>
             </div>
-          <div v-if="info.bin">
-            <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
-            <table>
-              <tr v-if="info.country">
-                <td>Країна:</td>
-                <td>{{info.country}}</td>
-              </tr>
-              <tr v-if="info.bank">
-                <td>Банк:</td>
-                <td >{{info.bank}}</td>
-              </tr>
-              <tr v-if="info.url">
-                <td>Сайт банку:</td>
-                <td>
-                  <a :href="info.url">{{info.url}}</a>
-                </td>
-              </tr>
-              <tr v-if="info.scheme">
-                <td>Платіжна система:</td>
-                <td>{{info.scheme}}</td>
-              </tr>
-              <tr v-if="info.type">
-                <td>Тип картки:</td>
-                <td>{{info.type}}</td>
-              </tr>
-              <tr v-if="info.level">
-                <td>Рівень картки:</td>
-                <td>{{info.level}}</td>
-              </tr>
-            </table>
-          </div>
+            
+            <div v-if="info.bin">
+                <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
+                <table>
+                <tr v-if="info.country">
+                    <td>Країна:</td>
+                    <td>{{info.country}}</td>
+                </tr>
+                <tr v-if="info.bank">
+                    <td>Банк:</td>
+                    <td >{{info.bank}}</td>
+                </tr>
+                <tr v-if="info.url">
+                    <td>Сайт банку:</td>
+                    <td>
+                    <a :href="info.url">{{info.url}}</a>
+                    </td>
+                </tr>
+                <tr v-if="info.scheme">
+                    <td>Платіжна система:</td>
+                    <td>{{info.scheme}}</td>
+                </tr>
+                <tr v-if="info.type">
+                    <td>Тип картки:</td>
+                    <td>{{info.type}}</td>
+                </tr>
+                <tr v-if="info.level">
+                    <td>Рівень картки:</td>
+                    <td>{{info.level}}</td>
+                </tr>
+                </table>
+            </div>
+                
+            
         </b-col>
       </b-row>
     </b-container>
@@ -115,6 +119,8 @@ export default {
         },
         clearBins(){
             this.$store.commit('clear');
+            this.status=false;
+            this.info={};
         }
     }
 }

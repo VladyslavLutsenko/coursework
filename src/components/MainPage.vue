@@ -32,48 +32,51 @@
           </div>
         </b-col>
         <b-col lg="8" class=" col-right">
-          <div v-if="info.bin">
-            <div class="map-holder">
-              <img :src="map" alt="map" class="map">
+          <transition name="fade" mode="out-in">
+            <div v-if="info.bin" key="info">
+              <div class="map-holder">
+                <img :src="map" alt="map" class="map">
+              </div>
+              <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
+              <table>
+                <tr v-if="info.country">
+                  <td>Країна:</td>
+                  <td>{{info.country}}</td>
+                </tr>
+                <tr v-if="info.bank">
+                  <td>Банк:</td>
+                  <td >{{info.bank}}</td>
+                </tr>
+                <tr v-if="bankInfo.url">
+                  <td>Сайт банку:</td>
+                  <td>
+                    <a :href="bankInfo.url">{{bankInfo.url}}</a>
+                  </td>
+                </tr>
+                <tr v-if="info.scheme">
+                  <td>Платіжна система:</td>
+                  <td>{{info.scheme}}</td>
+                </tr>
+                <tr v-if="info.type">
+                  <td>Тип картки:</td>
+                  <td>{{info.type}}</td>
+                </tr>
+                <tr v-if="info.level">
+                  <td>Рівень картки:</td>
+                  <td>{{info.level}}</td>
+                </tr>
+              </table>
             </div>
-            <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
-            <table>
-              <tr v-if="info.country">
-                <td>Країна:</td>
-                <td>{{info.country}}</td>
-              </tr>
-              <tr v-if="info.bank">
-                <td>Банк:</td>
-                <td >{{info.bank}}</td>
-              </tr>
-              <tr v-if="bankInfo.url">
-                <td>Сайт банку:</td>
-                <td>
-                  <a :href="bankInfo.url">{{bankInfo.url}}</a>
-                </td>
-              </tr>
-              <tr v-if="info.scheme">
-                <td>Платіжна система:</td>
-                <td>{{info.scheme}}</td>
-              </tr>
-              <tr v-if="info.type">
-                <td>Тип картки:</td>
-                <td>{{info.type}}</td>
-              </tr>
-              <tr v-if="info.level">
-                <td>Рівень картки:</td>
-                <td>{{info.level}}</td>
-              </tr>
-            </table>
-          </div>
-          <div v-if="!info.bin" class="info-holder">
-            <div class='info-img-holder'>
-              
-              <img src="../assets/BIN_INFO.jpg" id="info-img">
+            <div v-if="!info.bin" key="where" class="info-holder">
+              <div class='info-img-holder'>
+                
+                <img src="../assets/BIN_INFO.jpg" id="info-img">
+              </div>
+              <span class="inforacia">Де знайти BIN номер?</span>
+              <p class="info-kak">BIN (Bank Identification Number) - перші шість цифр на пластиковій картці, за якими можна визначити приналежність карти тій чи іншій країні і банку, тип карти і категорію карти. Його можна знайти на лицьовій стороні банківської карти. </p>
             </div>
-            <span class="inforacia">Де знайти BIN номер?</span>
-            <p class="info-kak">BIN (Bank Identification Number) - перші шість цифр на пластиковій картці, за якими можна визначити приналежність карти тій чи іншій країні і банку, тип карти і категорію карти. Його можна знайти на лицьовій стороні банківської карти. </p>
-          </div>
+          </transition>
+          
         </b-col>
       </b-row>
     </b-container>
@@ -191,6 +194,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .4s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 @media (min-width: 992px) {
   body {
     font-size: 1vw;
@@ -335,6 +346,7 @@ input::-webkit-inner-spin-button {
   left: 0;
   background: #fff;
   z-index: 100;
+  transition: background .4s ease-in-out;
 }
 .cards .card.front .bank-logo {
   position: absolute;
