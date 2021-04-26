@@ -24,7 +24,7 @@
     </div>
     
     <b-container fluid class="footer">
-      © Vladyslav Lutsenko 2020
+      © Vladyslav Lutsenko 2021
     </b-container>
   </div>
 </template>

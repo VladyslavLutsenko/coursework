@@ -33,19 +33,19 @@
         </b-col>
         <b-col lg="8" class=" col-right">
           <transition name="fade" mode="out-in">
-            <div v-if="info.bin" key="info">
+            <div v-if="info.scheme" key="info">
               <div class="map-holder">
                 <img :src="map" alt="map" class="map">
               </div>
-              <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
+              <span class="inforacia">Інформація про BIN {{enteredBin}}:</span>
               <table>
-                <tr v-if="info.country">
+                <tr v-if="info.country.name">
                   <td>Країна:</td>
-                  <td>{{info.country}}</td>
+                  <td>{{info.country.name}}</td>
                 </tr>
-                <tr v-if="info.bank">
+                <tr v-if="info.bank.name">
                   <td>Банк:</td>
-                  <td >{{info.bank}}</td>
+                  <td >{{info.bank.name}}</td>
                 </tr>
                 <tr v-if="bankInfo.url">
                   <td>Сайт банку:</td>
@@ -61,13 +61,10 @@
                   <td>Тип картки:</td>
                   <td>{{info.type}}</td>
                 </tr>
-                <tr v-if="info.level">
-                  <td>Рівень картки:</td>
-                  <td>{{info.level}}</td>
-                </tr>
+                
               </table>
             </div>
-            <div v-if="!info.bin" key="where" class="info-holder">
+            <div v-if="!info.scheme" key="where" class="info-holder">
               <div class='info-img-holder'>
                 
                 <img src="../assets/BIN_INFO.jpg" id="info-img">
@@ -97,7 +94,7 @@ export default {
   data() {
     return {
       publicPath: process.env.BASE_URL,
-      binCheker: 'https://x-api.hackinglatino.com/public/bin/',
+      binCheker: 'https://lookup.binlist.net/',
       proxy: 'https://cors-anywhere.herokuapp.com/',
       enteredBin: '',
       message: 'Введіть перші 6 цифр BIN:',
@@ -113,10 +110,10 @@ export default {
   },
   computed:{
     url: function () {
-      return this.proxy+this.binCheker+this.enteredBin
+      return/*  this.proxy+ */this.binCheker+this.enteredBin
     },
     map: function(){
-      return `https://open.mapquestapi.com/staticmap/v5/map?key=qhAUIuIfLJYZ2MXSBcqcD2sEDxDJIo9v&locations=${this.info.country}&center=UA&size=900,400&type=map`
+      return `https://open.mapquestapi.com/staticmap/v5/map?key=qhAUIuIfLJYZ2MXSBcqcD2sEDxDJIo9v&locations=${this.info.country.name}&center=UA&size=900,400&type=map`
     }
   },
   watch: {
@@ -163,11 +160,10 @@ export default {
       Vue.axios.get(this.url).then( response => {
         this.message='Успіх';
         this.status=4;
-        console.log(response.data);
-        this.info=response.data.response;
+        this.info=response.data;
         this.getBankInfo();
         
-        this.addToHistory(this.info, this.bankInfo);
+        this.addToHistory({bin: this.enteredBin}, this.info, this.bankInfo);
       }).catch(error => {
         console.error(error);
         this.message="Помилка!";
@@ -176,17 +172,17 @@ export default {
     },
     getBankInfo(){
       this.banks.forEach(country => {
-        if (country.country.toUpperCase()==this.info.country.toUpperCase()) {
+        if (country.country.toUpperCase()==this.info.country.name.toUpperCase()) {
           country.banks.forEach(bank => {
-            if (bank.bankNames.find(name=>name.toUpperCase()==this.info.bank.toUpperCase())) {
+            if (bank.bankNames.find(name=>name.toUpperCase()==this.info.bank.name.toUpperCase())) {
               this.bankInfo=bank.bankData;
             }
           });
         }
       });
     },
-    addToHistory(info, bankInfo){
-      this.$store.commit('addBin', {...info, ...bankInfo});
+    addToHistory(enteredBin, info, bankInfo){
+      this.$store.commit('addBin', {...enteredBin, ...info, ...bankInfo});
     }
   }
 }

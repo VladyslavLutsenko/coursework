@@ -33,13 +33,17 @@
             <div v-if="info.bin">
                 <span class="inforacia">Інформація про BIN {{info.bin}}:</span>
                 <table>
-                <tr v-if="info.country">
+                <tr v-if="info.country.name">
                     <td>Країна:</td>
-                    <td>{{info.country}}</td>
+                    <td>{{info.country.name}}</td>
                 </tr>
-                <tr v-if="info.bank">
+                <tr v-if="info.bank.name">
                     <td>Банк:</td>
-                    <td >{{info.bank}}</td>
+                    <td >{{info.bank.name}}</td>
+                </tr>
+                <tr v-if="info.bank.phone">
+                    <td>Телефон банку:</td>
+                    <td >{{info.bank.phone}}</td>
                 </tr>
                 <tr v-if="info.url">
                     <td>Сайт банку:</td>
@@ -83,7 +87,6 @@ export default {
         }
     },
     mounted: function () {
-
     },
     computed: {
             bins: function(){

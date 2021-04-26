@@ -5,6 +5,7 @@ export default [
             {
                 "bankNames": [
                     "privatbank",
+                    'Cb Privatbank',
                     "PUBLIC JOINT-STOCK COMPANY COMMERCIAL BANK PRIVATBANK", 
                     "COMMERCIAL BANK PRIVATBANK"
                 ],
