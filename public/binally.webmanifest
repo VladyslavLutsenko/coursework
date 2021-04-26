@@ -1,0 +1,22 @@
+{
+    "name": "BINally PWA",
+    "short_name": "BINally",
+    "description": "Progressive Web App that shows information about bin number.",
+    "icons": [
+        {
+            "src": "icons/logo-64x64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/logo-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#f8f9fa",
+    "background_color": "#f8f9fa",
+    "orientation": "portrait"
+}
