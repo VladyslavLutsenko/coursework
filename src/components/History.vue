@@ -90,7 +90,7 @@ export default {
     },
     computed: {
             bins: function(){
-                return this.$store.getters.getBins;
+                return this.$store.getters.getBins; //краще використовувати map getters
                 
             },
             status: function(){

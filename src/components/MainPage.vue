@@ -113,7 +113,7 @@ export default {
       return/*  this.proxy+ */this.binCheker+this.enteredBin
     },
     map: function(){
-      return `https://open.mapquestapi.com/staticmap/v5/map?key=qhAUIuIfLJYZ2MXSBcqcD2sEDxDJIo9v&locations=${this.info.country.name}&center=UA&size=900,400&type=map`
+      return `https://open.mapquestapi.com/staticmap/v5/map?key=qhAUIuIfLJYZ2MXSBcqcD2sEDxDJIo9v&locations=${this.info.country.name}&center=UA&size=900,400&type=map` //api клюя краще не вписувати прямо в коді, створи env файл і не коміть його, а закоміть env.example просто з прикладом заповнення
     }
   },
   watch: {
