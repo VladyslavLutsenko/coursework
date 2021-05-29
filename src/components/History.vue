@@ -89,19 +89,18 @@ export default {
     mounted: function () {
     },
     computed: {
-            bins: function(){
-                return this.$store.getters.getBins; //краще використовувати map getters
-                
-            },
-            status: function(){
-                if (this.bins.length>0) {
-                    return true;
-                }
-                else{
-                    return false;
-                }
+        status: function(){
+            if (this.bins.length>0) {
+                return true;
+            }
+            else{
+                return false;
             }
         },
+        ...mapGetters({
+            bins: 'getBins'
+        })
+    },
     methods: {
         getBrand(bin){
             if (bin[0]==3) {
