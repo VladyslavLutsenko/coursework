@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+
 import banks from '../data/banks.js'
 
 export default {
@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     checkBIN(){
-      Vue.axios.get(this.url).then( response => {
+      this.axios.get(this.url).then( response => {
         this.message='Успіх';
         this.status=4;
         this.info=response.data;
